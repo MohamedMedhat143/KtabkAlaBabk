@@ -9,14 +9,10 @@ import jwt from "jsonwebtoken";
 const signup = catchError(async (req, res, next) => {
   let user = new User(req.body);
   await user.save();
-  jwt.sign(
-    { userId: user._id },
-    process.env.SECKRET_KEY,
-    (err, token) => {
-      if (err) return next(new AppError("Token generation failed", 500));
-      res.status(201).json({ message: "success...", token });
-    }
-  );
+  jwt.sign({ userId: user._id }, process.env.SECKRET_KEY, (err, token) => {
+    if (err) return next(new AppError("Token generation failed", 500));
+    res.status(201).json({ message: "success...", token });
+  });
 });
 
 //////////////////////////// Signin ////////////////////////////////////////////
@@ -33,7 +29,7 @@ const signin = catchError(async (req, res, next) => {
       }
     );
   }
-  next(new AppError("incorrect password or email", 401));
+  next(new AppError("incorrect password or phone", 401));
 });
 
 ////////////////////////////Change Password////////////////////////////////////////////
@@ -55,7 +51,7 @@ const chnagePassword = catchError(async (req, res, next) => {
       }
     );
   }
-  next(new AppError("incorrect password or email", 401));
+  next(new AppError("incorrect password or phone", 401));
 });
 
 export { signup, signin, chnagePassword };

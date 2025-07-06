@@ -21,6 +21,6 @@ export const signinval = joi.object({
     .required(),
   password: joi
     .string()
-    .pattern(/^[a-zA-Z0-9!@#$%^&*]{8,20}$/)
+    // .pattern(/^[a-zA-Z0-9!@#$%^&*]{8,20}$/)
     .required(),
 });
