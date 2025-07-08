@@ -70,7 +70,9 @@ const removeFromCart = catchError(async (req, res, next) => {
 });
 
 const getLoggedUserCart = catchError(async (req, res, next) => {
-  let cart = await Cart.findOne({ user: req.user.userId });
+  let cart = await Cart.findOne({ user: req.user.userId }).populate(
+    "cartItems.book"
+  );
   if (!cart) return next(new AppError("Cart Not Found", 404));
   res.status(201).json({ msg: "success", cart });
 });

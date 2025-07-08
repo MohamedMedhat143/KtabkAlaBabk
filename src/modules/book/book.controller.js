@@ -20,15 +20,17 @@ const addBook = catchError(async (req, res, next) => {
 const getAllBooks = catchError(async (req, res, next) => {
   let books = await Book.find();
   if (!books) return next(new AppError("Books not found"));
-  res.status(201).json({ message: "successfully", books });
+  const booksWithIsEmpty = books.map((book) => ({
+    ...book.toObject(),
+    isEmpty: book.numberOfBooks === 0, // Dynamically calculated in GET only
+  }));
+  res.status(201).json({ message: "successfully", books: booksWithIsEmpty });
 });
 
 const editBook = catchError(async (req, res, next) => {
-  const updatedBook = await Book.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true } 
-  );
+  const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
   if (!updatedBook) return next(new AppError("There is no book", 404));
   if (req.files.bookImage && req.files.bookImage[0]) {
     await deleteImage(updatedBook.bookImageId);

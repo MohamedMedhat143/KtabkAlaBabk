@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 
 const schema = new mongoose.Schema(
   {
+    userName: String,
+
     firstName: {
       type: String,
       required: true,
@@ -13,18 +15,18 @@ const schema = new mongoose.Schema(
       required: true,
     },
 
-    verified: {
-      type: Boolean,
-      default: false,
-    },
+    // verified: {
+    //   type: Boolean,
+    //   default: false,
+    // },
 
     password: String,
 
     passwordChangedAt: Date,
 
-    // city: String,
+    city: String,
 
-    // address: String,
+    address: String,
 
     phoneNumber: String,
 
@@ -38,6 +40,7 @@ const schema = new mongoose.Schema(
 );
 
 schema.pre("save", function () {
+  this.userName = this.firstName + " " + this.lastName;
   this.password = bcrypt.hashSync(this.password, 8);
 });
 

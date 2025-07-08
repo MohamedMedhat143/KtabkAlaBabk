@@ -3,7 +3,9 @@ import { catchError } from "../../middleware/catchError.js";
 import { AppError } from "../../utils/appError.js";
 
 const getUser = catchError(async (req, res, next) => {
-  let user = await User.findById(req.user.userId);
+  let user = await User.findById(req.user.userId).select(
+    "userName phoneNumber address city"
+  );
   if (!user) return next(new AppError("There Is no user", 404));
   res.status(201).json({ msg: "Success", user });
 });

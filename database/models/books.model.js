@@ -34,11 +34,11 @@ const schema = new mongoose.Schema(
 
     isEmpty: {
       type: Boolean,
-      default: false,
+      default: true,
       required: true,
     },
 
-    bookWeight:String,
+    bookWeight: String,
 
     bookImage: String,
 
@@ -46,6 +46,12 @@ const schema = new mongoose.Schema(
   },
   { versionKey: false, timestamps: true }
 );
+
+schema.virtual("isEmptyDynamic").get(function () {
+  return this.numberOfBooks === 0;
+});
+
+
 schema.post("init", (doc) => {
   const baseURL = "https://ik.imagekit.io/papyrus/Books/BooksImages/";
   if (doc.bookImage) {
