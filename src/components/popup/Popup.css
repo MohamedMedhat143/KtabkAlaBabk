@@ -1,0 +1,33 @@
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  padding: 1.5rem;
+  border-radius: 1rem;
+  font-family: "Cairo", sans-serif;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+}
+
+.popup-success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.popup-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.popup-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+}

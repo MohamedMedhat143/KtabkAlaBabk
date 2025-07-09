@@ -1,0 +1,73 @@
+.profile-container {
+  padding: 2rem;
+  max-width: 600px;
+  margin: auto;
+  background: #f9f9f9;
+  border-radius: 15px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.profile-input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #ccc;
+  border-radius: 1rem;
+  font-size: 1rem;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.profile-input:disabled {
+  background-color: #f1f1f1;
+  color: #999;
+}
+
+.profile-button {
+  background: linear-gradient(to right, #1e40af, #7c3aed);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  width: 100%;
+}
+
+.profile-button:hover {
+  background: linear-gradient(to right, #163a97, #6a27c7);
+  transform: scale(1.05);
+}
+
+.save-button {
+  background: linear-gradient(to right, #f59e0b, #f97316); /* Orange shades */
+}
+
+.save-button:hover {
+  background: linear-gradient(to right, #d97706, #ea580c);
+}
+
+.edit-button {
+  background: linear-gradient(to right, #1e40af, #7c3aed);
+}
+
+.edit-button:hover {
+  background: linear-gradient(to right, #163a97, #6a27c7);
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 600px) {
+  .profile-container {
+    padding: 1rem;
+  }
+
+  .profile-button {
+    padding: 0.8rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .profile-input {
+    font-size: 0.9rem;
+  }
+}

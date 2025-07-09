@@ -1,0 +1,179 @@
+/* Payment Button */
+.payment-button {
+  background: linear-gradient(to right, #1e40af, #7c3aed);
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  display: block;
+  margin: 2rem auto 0;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.payment-button:hover {
+  background: linear-gradient(to right, #163a97, #6a27c7);
+  transform: scale(1.05);
+}
+
+/* Loading & Empty Text */
+.loading-text,
+.empty-text {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #555;
+  margin-top: 2rem;
+}
+
+/* Total Price */
+.total-price {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #163a97;
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Quantity Control Layout */
+.quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.quantity-control input {
+  width: 60px;
+  text-align: center;
+}
+
+/* Buttons Inside Quantity Control */
+.quantity-control .update-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.quantity-control .update-button:hover {
+  background-color: #45a049;
+}
+
+.quantity-control .delete-button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.quantity-control .delete-button:hover {
+  background-color: #d32f2f;
+}
+
+/* Button Group (Optional If You Have It) */
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.clear-cart-container {
+  text-align: left;
+  padding: 1rem 2rem 0.5rem;
+}
+
+.clear-cart-button {
+  background-color: #fc3122;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.clear-cart-button:hover {
+  background-color: #d32f2f;
+}
+
+.popup {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  font-size: 1rem;
+  font-weight: 600;
+  animation: slideDown 0.5s ease, fadeOut 0.5s ease 3s forwards;
+}
+
+.popup.success {
+  background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+  color: #006064;
+}
+
+.popup.error {
+  background: linear-gradient(to right, #ffebee, #ffcdd2);
+  color: #c62828;
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+    pointer-events: none;
+  }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 600px) {
+  .payment-button {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1.2rem;
+  }
+
+  .quantity-control {
+    justify-content: center;
+  }
+
+  .button-group {
+    justify-content: center;
+  }
+
+  .total-price {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .clear-cart-container {
+    text-align: center;
+  }
+}

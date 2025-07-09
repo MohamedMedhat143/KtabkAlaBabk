@@ -1,0 +1,232 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap");
+
+.container {
+  font-family: "Cairo", sans-serif;
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: white;
+  padding: 0; /* No padding */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  height: 140px; /* Fixed header height (you can adjust) */
+}
+
+.logo-img {
+  max-width: 180px;
+  height: auto;
+  margin: 0;
+}
+
+.header-title {
+  font-weight: 800;
+  font-size: 2.25rem;
+  color: #1e40af;
+}
+
+.form-section {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.form {
+  width: 100%;
+  max-width: 800px;
+}
+
+.form-wrapper {
+  background: linear-gradient(to right, #eff6ff, #dbeafe);
+  padding: 3rem;
+  border-radius: 5.5rem;
+  box-shadow: inset 0 0 10px #cbd5e1;
+}
+
+.form-title {
+  font-weight: 800;
+  font-size: 2.25rem;
+  text-align: center;
+  color: #1e40af;
+  margin-bottom: 2.5rem;
+}
+
+.form-group {
+  margin-bottom: 2rem;
+  text-align: right;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem; /* space between fields */
+}
+
+.form-row .form-group {
+  flex: 1; /* both fields take equal width */
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: #374151;
+  font-size: 1.25rem;
+}
+
+.input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  font-size: 1.25rem;
+  background: white;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.input:focus {
+  box-shadow: 0 0 0 3px #3b82f6;
+  border-color: #3b82f6;
+}
+
+.btn-submit {
+  width: 100%;
+  background-color: #1e40af;
+  color: white;
+  padding: 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #1e3a8a;
+}
+
+.signup-text {
+  margin-top: 2rem;
+  text-align: center;
+  color: #4b5563;
+  font-size: 1.25rem;
+}
+
+.signup-link {
+  color: #1e40af;
+  font-weight: 600;
+  margin-right: 0.5rem;
+  text-decoration: none;
+}
+
+.signup-link:hover {
+  text-decoration: underline;
+}
+
+.popup-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.popup-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  max-width: 300px;
+}
+
+.popup-title {
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #1e40af;
+  margin-bottom: 1.5rem;
+}
+
+.popup-btn {
+  background-color: #1e40af;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.popup-btn:hover {
+  background-color: #1e3a8a;
+}
+
+/* New Popup Message (for account creation success/error) */
+/* Elegant Popup Message (Success/Error) */
+/* Elegant Auto-Fading Popup (Success/Error) */
+.popup {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+  font-size: 1rem;
+  font-weight: 600;
+  animation: slideDown 0.5s ease, fadeOut 0.5s ease 3s forwards;
+}
+
+/* Success: Soft Green */
+.popup.success {
+  background: linear-gradient(to right, #e0f7fa, #b2ebf2);
+  color: #006064;
+}
+
+/* Error: Soft Red */
+.popup.error {
+  background: linear-gradient(to right, #ffebee, #ffcdd2);
+  color: #c62828;
+}
+
+/* Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+    pointer-events: none;
+  }
+}
+
+select.input {
+  appearance: none;
+  background-color: white;
+  background-image: url("data:image/svg+xml,%3Csvg fill='%236B7280' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  background-size: 1.5rem 1.5rem;
+  padding-right: 3rem;
+}
