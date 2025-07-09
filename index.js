@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
 const app = express();
-const port = 4000;
+const port = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.static("Books"));
 app.use(express.json());
@@ -33,4 +33,6 @@ app.use((req, res, next) => {
   next(new AppError(`route not found ${req.originalUrl}`, 404));
 });
 app.use(globalError);
-app.listen(port, () => console.log(`Klo Tmam ala elport da👌👌 ${port}!`));
+app.listen(process.env.PORT, () =>
+  console.log(`Klo Tmam ala elport da👌👌 ${port}!`)
+);
