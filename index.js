@@ -33,6 +33,4 @@ app.use((req, res, next) => {
   next(new AppError(`route not found ${req.originalUrl}`, 404));
 });
 app.use(globalError);
-app.listen(process.env.PORT, () =>
-  console.log(`Klo Tmam ala elport da👌👌 ${port}!`)
-);
+app.listen(port, () => console.log(`Klo Tmam ala elport da👌👌 ${port}!`));
