@@ -3,6 +3,8 @@ import { dbConn } from "./database/dbconnection.js";
 import { AppError } from "./src/utils/appError.js";
 import { globalError } from "./src/middleware/globalError.js";
 import { bootstrap } from "./src/modules/bootstrap.js";
+import path from "path";
+import { fileURLToPath } from "url";
 import dotenv from "dotenv";
 import cors from "cors";
 dotenv.config();
@@ -11,11 +13,24 @@ const port = 4000;
 app.use(cors());
 app.use(express.static("Books"));
 app.use(express.json());
-app.get("/", (req, res) => res.send("Hello World!"));
 bootstrap(app);
 
-// app.use("*", (req, res, next) => {
-//   next(new AppError(`route not found ${req.originalUrl}`, 404));
-// });
+// 📦 FRONTEND SETUP
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, "build")));
+
+// SPA fallback to index.html
+// For serving index.html
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+// For 404 handling
+app.use((req, res, next) => {
+  next(new AppError(`route not found ${req.originalUrl}`, 404));
+});
 app.use(globalError);
 app.listen(port, () => console.log(`Klo Tmam ala elport da👌👌 ${port}!`));
