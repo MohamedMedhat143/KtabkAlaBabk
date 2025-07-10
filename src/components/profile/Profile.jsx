@@ -22,6 +22,10 @@ export default function ProfilePage() {
           type: "success",
           message: "يجب تسجيل الدخول للوصول إلى الملف الشخصى",
         });
+        setTimeout(() => {
+          window.location.href = "/signin";
+        }, 2000);
+
         return;
       }
       const res = await fetch("https://ktabkalababk.onrender.com/user", {

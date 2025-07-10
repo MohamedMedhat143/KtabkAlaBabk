@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -8,6 +8,7 @@ export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [popup, setPopup] = useState(null);
+  const navigate = useNavigate();
 
   const fetchCart = async () => {
     try {
@@ -17,14 +18,15 @@ export default function Cart() {
           type: "success",
           message: "يجب تسجيل الدخول للوصول إلى السلة",
         });
+        navigate("/signin");
         return;
       }
-
+      console.log(token);
       const res = await fetch("https://ktabkalababk.onrender.com/cart", {
-        headers: { token: `${token}` },
+        headers: { token: token },
       });
       const data = await res.json();
-
+      console.log(data);
       if (res.ok) {
         setCartItems(data.cart.cartItems);
         setTotalPrice(data.cart.totalCartPrice);
@@ -147,8 +149,7 @@ export default function Cart() {
           type: "success",
           message: "تم مسح جميع الكتب من السلة بنجاح",
         });
-        // await fetchCart();
-        // window.location.reload();
+        await fetchCart();
       } else {
         setPopup({
           type: "error",
