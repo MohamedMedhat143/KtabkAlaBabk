@@ -17,8 +17,6 @@ app.use(cors());
 app.use(express.static("Books"));
 app.use(express.json());
 
-bootstrap(app);
-
 // 📦 FRONTEND SETUP
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,17 +24,16 @@ const __dirname = path.dirname(__filename);
 // Serve frontend static files
 app.use(express.static(path.join(__dirname, "build")));
 
-// SPA fallback to index.html
-// For serving index.html
-app.get(/.*/, (req, res) => {
+// 🚀 API ROUTES - Must come BEFORE the catch-all route
+bootstrap(app);
+
+// 🎯 SPA CATCH-ALL ROUTE - Must come AFTER all API routes
+// This handles all frontend routes (like /cart, /home, etc.)
+app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// For 404 handling
-app.use((req, res, next) => {
-  next(new AppError(`route not found ${req.originalUrl}`, 404));
-});
-
+// 🚨 GLOBAL ERROR HANDLER - Must be last
 app.use(globalError);
 
 app.listen(port, () => console.log(`Klo Tmam ala elport da👌👌 ${port}!`));
