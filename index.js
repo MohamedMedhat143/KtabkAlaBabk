@@ -30,6 +30,10 @@ bootstrap(app);
 // 🎯 SPA CATCH-ALL ROUTE - Must come AFTER all API routes
 // This handles all frontend routes (like /cart, /home, etc.)
 app.get(/.*/, (req, res) => {
+  console.log("=== SPA ROUTE SERVED ===");
+  console.log("Request URL:", req.originalUrl);
+  console.log("User Agent:", req.headers["user-agent"]);
+  console.log("========================");
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
