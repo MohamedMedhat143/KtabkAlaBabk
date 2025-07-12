@@ -9,7 +9,7 @@ import {
 import { verifyToken } from "../../middleware/verifyToken.js";
 
 const cartRoutr = Router();
-cartRoutr.get("/getcart", getLoggedUserCart);
+cartRoutr.get("/getcart", verifyToken, getLoggedUserCart);
 cartRoutr.post("/addtocart", verifyToken, addToCart);
 cartRoutr.put("/updatequantity/:id", verifyToken, updateQuantity);
 cartRoutr.delete("/deletefromcart/:id", verifyToken, removeFromCart);

@@ -3,14 +3,6 @@ import { AppError } from "../utils/appError.js";
 
 export const verifyToken = async (req, res, next) => {
   // Debug logging
-  console.log("=== TOKEN DEBUG ===");
-  console.log("Request URL:", req.originalUrl);
-  console.log("All headers:", req.headers);
-  console.log("Token from headers:", req.headers.token);
-  console.log("Admin token from headers:", req.headers.admin_token);
-  console.log("Authorization header:", req.headers.authorization);
-  console.log("===================");
-
   let { admin_token } = req.headers;
   let { token } = req.headers;
 
