@@ -11,15 +11,37 @@ export default function Signin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("https://ktabkalababk.onrender.com/auth/signin", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ phoneNumber: phone, password }),
-      });
+      const res = await fetch(
+        "https://ktabkalababk.vercel.app/auth/signin",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: phone, password }),
+        }
+      );
 
       const data = await res.json();
+      console.log("Signin response:", data);
+
       if (res.ok) {
+        // Validate token before storing
+        if (!data.token) {
+          setPopup({ type: "error", message: "خطأ في استلام رمز الجلسة" });
+          return;
+        }
+
+        // Store token in both localStorage and sessionStorage for reliability
         localStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token);
+        console.log("=== TOKEN STORAGE DEBUG ===");
+        console.log("Token received from server:", data.token);
+        console.log("Token length:", data.token?.length);
+        console.log("Token stored in localStorage:", localStorage.getItem("token"));
+        console.log("Token stored in sessionStorage:", sessionStorage.getItem("token"));
+        console.log("localStorage token length:", localStorage.getItem("token")?.length);
+        console.log("sessionStorage token length:", sessionStorage.getItem("token")?.length);
+        console.log("===========================");
+
         setPopup({ type: "success", message: "تم تسجيل الدخول بنجاح!" });
         setTimeout(() => {
           setPopup(null);

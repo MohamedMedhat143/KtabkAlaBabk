@@ -10,12 +10,35 @@ export default function Home() {
   const hasToken = Boolean(localStorage.getItem("token"));
   const [loading, setLoading] = useState(true);
   const [popup, setPopup] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
+
+  // Fetch cart count
+  const fetchCartCount = async () => {
+    if (!hasToken) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch("https://ktabkalababk.vercel.app/cart/getcart", {
+        headers: { token: token },
+      });
+      const data = await res.json();
+
+      if (res.ok && data.cart && data.cart.cartItems) {
+        setCartCount(data.cart.cartItems.length);
+      } else {
+        setCartCount(0);
+      }
+    } catch (err) {
+      console.error("Error fetching cart count:", err);
+      setCartCount(0);
+    }
+  };
 
   useEffect(() => {
     const fetchBooks = async () => {
       try {
         const res = await fetch(
-          "https://ktabkalababk.onrender.com/book/getbooks"
+          "https://ktabkalababk.vercel.app/book/getbooks"
         );
         const data = await res.json();
         setBooks(data.books || []);
@@ -27,7 +50,8 @@ export default function Home() {
     };
 
     fetchBooks();
-  }, []);
+    fetchCartCount();
+  }, [hasToken]);
 
   const addToCart = async (bookId) => {
     try {
@@ -41,7 +65,7 @@ export default function Home() {
       }
 
       const res = await fetch(
-        "https://ktabkalababk.onrender.com/cart/addtocart",
+        "https://ktabkalababk.vercel.app/cart/addtocart",
         {
           method: "POST",
           headers: {
@@ -60,6 +84,8 @@ export default function Home() {
           type: "success",
           message: "تم إضافة الكتاب إلى السلة بنجاح!",
         });
+        // Refresh cart count after adding item
+        fetchCartCount();
       } else {
         setPopup({
           type: "error",
@@ -83,14 +109,25 @@ export default function Home() {
     navigate("/profile");
   };
 
-  // const goToSearch = () => {
-  //   alert("Search functionality coming soon!");
-  // };
+  const handleAddToCart = async (bookId) => {
+    try {
+      const button = document.getElementById(`add-button-${bookId}`);
+      button.classList.add("add-animation"); // Add animation class
+
+      setTimeout(() => {
+        button.classList.remove("add-animation"); // Remove after animation
+      }, 500); // Duration matches animation below
+
+      await addToCart(bookId); // Your existing function to add to cart
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const handleSearch = async () => {
     try {
       const res = await fetch(
-        `https://ktabkalababk.onrender.com/book?search=${encodeURIComponent(
+        `https://ktabkalababk.vercel.app/book?search=${encodeURIComponent(
           searchTerm
         )}`
       );
@@ -123,10 +160,28 @@ export default function Home() {
           <div className="header-icons">
             {hasToken ? (
               <>
+                {/* Logout Icon */}
+                <button
+                  onClick={() => {
+                    // Clear all stored data
+                    localStorage.removeItem("token");
+                    sessionStorage.removeItem("token");
+
+                    // Redirect to home (will show login button)
+                    navigate("/home");
+                  }}
+                  className="header-button logout-button"
+                  title="تسجيل الخروج"
+                >
+                  <span className="logout-icon"></span>
+                </button>
                 {/* Cart Icon */}
                 <div className="cart-container">
                   <button onClick={goToCart} className="cart-button">
                     <img src="trolley.png" alt="Cart" className="icon-image" />
+                    {cartCount > 0 && (
+                      <span className="cart-count">{cartCount}</span>
+                    )}
                   </button>
                 </div>
                 {/* Profile Icon */}
@@ -146,7 +201,7 @@ export default function Home() {
                     <input
                       type="text"
                       className="search-input"
-                      placeholder="ابحث عن كتاب..."
+                      placeholder="ابحث عن كتاب او مدرس..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       onKeyDown={(e) => {
@@ -193,17 +248,11 @@ export default function Home() {
                 <p className="book-owner">{book.bookOwner}</p>
                 <p className="book-owner">{book.gradeOfBooks}</p>
                 <p className="book-price">السعر: {book.bookPrice} جنيه</p>
-                <p
-                  className={`book-status ${
-                    book.isEmpty ? "out-of-stock" : "in-stock"
-                  }`}
-                >
-                  {book.isEmpty ? "غير متاح" : "متاح"}
-                </p>
                 <button
-                  onClick={() => !book.isEmpty && addToCart(book._id)}
+                  id={`add-button-${book._id}`}
+                  onClick={() => handleAddToCart(book._id)}
                   className={`book-button ${
-                    book.isEmpty ? "disabled" : "active"
+                    book.isEmpty ? "unavailable-button" : ""
                   }`}
                   disabled={book.isEmpty}
                 >

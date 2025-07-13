@@ -51,14 +51,19 @@
 }
 
 /* Buttons Inside Quantity Control */
-.quantity-control .update-button {
+.quantity-control .update-button,
+.quantity-control .delete-button {
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 6px 12px;
+  padding: 8px 16px;
   cursor: pointer;
   border-radius: 4px;
   transition: 0.3s;
+  font-size: 14px;
+  font-weight: bold;
+  min-width: 80px;
+  text-align: center;
 }
 
 .quantity-control .update-button:hover {
@@ -67,24 +72,19 @@
 
 .quantity-control .delete-button {
   background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 6px 12px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: 0.3s;
 }
 
 .quantity-control .delete-button:hover {
   background-color: #d32f2f;
 }
 
-/* Button Group (Optional If You Have It) */
+/* Button Group */
 .button-group {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 5px;
+  margin-top: 8px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .clear-cart-container {

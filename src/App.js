@@ -9,6 +9,8 @@ import Signup from "./components/signup/Signup";
 import Home from "./components/home/Home";
 import Cart from "./components/cart/Cart";
 import Profile from "./components/profile/Profile";
+import AdminSignin from "./components/signin/Admin_Signin";
+import Dashboard from "./components/dashboard/Dashboard";
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/admin_signin" element={<AdminSignin />} />
+        <Route path="/admin_dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
   );

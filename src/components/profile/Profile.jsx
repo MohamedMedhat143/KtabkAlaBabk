@@ -28,7 +28,7 @@ export default function ProfilePage() {
 
         return;
       }
-      const res = await fetch("https://ktabkalababk.onrender.com/user", {
+      const res = await fetch("https://ktabkalababk.vercel.app/user", {
         headers: { token },
       });
       const data = await res.json();
@@ -55,17 +55,14 @@ export default function ProfilePage() {
   const handleEdit = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(
-        "https://ktabkalababk.onrender.com/user/edituser",
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            token,
-          },
-          body: JSON.stringify(userData),
-        }
-      );
+      const res = await fetch("https://ktabkalababk.vercel.app/user/edituser", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          token,
+        },
+        body: JSON.stringify(userData),
+      });
       const data = await res.json();
       if (res.ok) {
         setPopup({ type: "success", message: "تم تحديث البيانات بنجاح" });

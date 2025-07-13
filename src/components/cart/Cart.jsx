@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -8,7 +8,6 @@ export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [popup, setPopup] = useState(null);
-  const navigate = useNavigate();
 
   const fetchCart = async () => {
     try {
@@ -18,15 +17,13 @@ export default function Cart() {
           type: "success",
           message: "يجب تسجيل الدخول للوصول إلى السلة",
         });
-        navigate("/signin");
         return;
       }
-      console.log(token);
-      const res = await fetch("https://ktabkalababk.onrender.com/cart", {
+      const res = await fetch("https://ktabkalababk.vercel.app/cart/getcart", {
         headers: { token: token },
       });
       const data = await res.json();
-      console.log(data);
+
       if (res.ok) {
         setCartItems(data.cart.cartItems);
         setTotalPrice(data.cart.totalCartPrice);
@@ -66,7 +63,7 @@ export default function Cart() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `https://ktabkalababk.onrender.com/cart/updatequantity/${bookId}`,
+        `https://ktabkalababk.vercel.app/cart/updatequantity/${bookId}`,
         {
           method: "PUT",
           headers: {
@@ -100,7 +97,7 @@ export default function Cart() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `https://ktabkalababk.onrender.com/cart/deletefromcart/${bookId}`,
+        `https://ktabkalababk.vercel.app/cart/deletefromcart/${bookId}`,
         {
           method: "DELETE",
           headers: { token: token },
@@ -137,7 +134,7 @@ export default function Cart() {
         return;
       }
       const res = await fetch(
-        "https://ktabkalababk.onrender.com/cart/clearcart",
+        "https://ktabkalababk.vercel.app/cart/clearcart",
         {
           method: "DELETE",
           headers: { token: token },
@@ -149,7 +146,8 @@ export default function Cart() {
           type: "success",
           message: "تم مسح جميع الكتب من السلة بنجاح",
         });
-        await fetchCart();
+        // await fetchCart();
+        window.location.reload();
       } else {
         setPopup({
           type: "error",
