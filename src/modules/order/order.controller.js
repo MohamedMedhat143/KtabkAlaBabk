@@ -43,6 +43,7 @@ const createOrder = catchError(async (req, res, next) => {
   });
   await order.save();
   let oldPrice = cart.totalCartPrice;
+  await Cart.findByIdAndDelete(cart._id);
   res.status(201).json({ msg: "success", order, oldPrice });
 });
 
