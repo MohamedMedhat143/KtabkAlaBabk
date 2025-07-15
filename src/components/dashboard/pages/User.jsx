@@ -49,7 +49,7 @@ export default function UsersPage() {
 
     try {
       const res = await fetch(
-        "https://ktabkalababk.vercel.app/user/admin/getalluser",
+        "https://ktabkalababk.up.railway.app/user/admin/getalluser",
         {
           headers: { admin_token: token },
         }
@@ -87,7 +87,7 @@ export default function UsersPage() {
 
     try {
       const res = await fetch(
-        `https://ktabkalababk.vercel.app/user/admin/deleteuser/${userId}`,
+        `https://ktabkalababk.up.railway.app/user/admin/deleteuser/${userId}`,
         {
           method: "DELETE",
           headers: { admin_token: token },
@@ -128,7 +128,7 @@ export default function UsersPage() {
 
     try {
       const res = await fetch(
-        `https://ktabkalababk.vercel.app/auth/setdefaultpassword/${userId}`,
+        `https://ktabkalababk.up.railway.app/auth/setdefaultpassword/${userId}`,
         {
           method: "GET",
           headers: { admin_token: token },
@@ -179,7 +179,7 @@ export default function UsersPage() {
 
     try {
       const res = await fetch(
-        `https://ktabkalababk.vercel.app/user/admin/searchbook?search=${encodeURIComponent(
+        `https://ktabkalababk.up.railway.app/user/admin/searchbook?search=${encodeURIComponent(
           searchTerm
         )}`,
         {

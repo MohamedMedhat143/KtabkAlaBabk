@@ -12,7 +12,7 @@ export default function Signin() {
     e.preventDefault();
     try {
       const res = await fetch(
-        "https://ktabkalababk.vercel.app/auth/signin",
+        "https://ktabkalababk.up.railway.app/auth/signin",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Cart.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -8,6 +8,8 @@ export default function Cart() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [popup, setPopup] = useState(null);
+  const [cartId, setCartId] = useState(null);
+  const navigate = useNavigate();
 
   const fetchCart = async () => {
     try {
@@ -19,7 +21,7 @@ export default function Cart() {
         });
         return;
       }
-      const res = await fetch("https://ktabkalababk.vercel.app/cart/getcart", {
+      const res = await fetch("https://ktabkalababk.up.railway.app/cart/getcart", {
         headers: { token: token },
       });
       const data = await res.json();
@@ -27,6 +29,7 @@ export default function Cart() {
       if (res.ok) {
         setCartItems(data.cart.cartItems);
         setTotalPrice(data.cart.totalCartPrice);
+        setCartId(data.cart._id);
       } else {
         const errorMsg =
           data.message === "Cart Not Found" ? "السلة فارغة" : data.message;
@@ -44,11 +47,54 @@ export default function Cart() {
     fetchCart();
   }, []);
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     setPopup({
       type: "success",
       message: "جاري تنفيذ عملية الدفع...",
     });
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setPopup({
+          type: "error",
+          message: "يجب تسجيل الدخول لإتمام عملية الدفع",
+        });
+        return;
+      }
+      if (!cartId) {
+        setPopup({
+          type: "error",
+          message: "تعذر العثور على السلة. حاول إعادة تحميل الصفحة.",
+        });
+        return;
+      }
+      const res = await fetch(
+        `http://localhost:5000/order/createorder/${cartId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            token: token,
+          },
+        }
+      );
+      const data = await res.json();
+      if (res.ok && data.order) {
+        setPopup({ type: "success", message: "تم إنشاء الطلب بنجاح!" });
+        // Redirect to order page, only send oldPrice if needed
+        navigate("/order", { state: { oldPrice: data.oldPrice } });
+      } else {
+        setPopup({
+          type: "error",
+          message: data.message || "فشل في إنشاء الطلب",
+        });
+      }
+    } catch (err) {
+      setPopup({
+        type: "error",
+        message: "حدث خطأ أثناء تنفيذ عملية الدفع",
+      });
+    }
   };
 
   // Handle local quantity change
@@ -63,7 +109,7 @@ export default function Cart() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `https://ktabkalababk.vercel.app/cart/updatequantity/${bookId}`,
+        `https://ktabkalababk.up.railway.app/cart/updatequantity/${bookId}`,
         {
           method: "PUT",
           headers: {
@@ -97,7 +143,7 @@ export default function Cart() {
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
-        `https://ktabkalababk.vercel.app/cart/deletefromcart/${bookId}`,
+        `https://ktabkalababk.up.railway.app/cart/deletefromcart/${bookId}`,
         {
           method: "DELETE",
           headers: { token: token },
@@ -134,7 +180,7 @@ export default function Cart() {
         return;
       }
       const res = await fetch(
-        "https://ktabkalababk.vercel.app/cart/clearcart",
+        "https://ktabkalababk.up.railway.app/cart/clearcart",
         {
           method: "DELETE",
           headers: { token: token },

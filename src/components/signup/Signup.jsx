@@ -11,28 +11,37 @@ export default function Signup() {
   const [repassword, setRePassword] = useState("");
   const [popup, setPopup] = useState(null);
   const [selectedCity, setSelectedCity] = useState("");
+  const [secondPhoneNumber, setSecondPhoneNumber] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("https://ktabkalababk.vercel.app/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          firstName,
-          lastName,
-          address,
-          phoneNumber,
-          password,
-          repassword,
-          city: selectedCity, // ← new field
-        }),
-      });
+      const res = await fetch(
+        "https://ktabkalababk.up.railway.app/auth/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName,
+            lastName,
+            address,
+            phoneNumber,
+            secondPhoneNumber,
+            password,
+            repassword,
+            city: selectedCity, // ← new field
+          }),
+        }
+      );
 
       const data = await res.json();
       if (res.ok) {
+        // Save token to localStorage if present
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+        }
         setPopup({ type: "success", message: "تم إنشاء الحساب بنجاح!" });
         setTimeout(() => setPopup(null), 3000);
         setTimeout(() => {
@@ -48,6 +57,9 @@ export default function Signup() {
 
         if (message.includes('ValidationError: "repassword"')) {
           message = "كلمة المرور وتأكيد كلمة المرور غير متطابقتين";
+        }
+        if (message.includes("the user dosnt exist")) {
+          message = "المستخدم غير موجود";
         }
         setPopup({
           type: "error",
@@ -199,6 +211,20 @@ export default function Signup() {
                 className="input"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="secondPhoneNumber" className="label">
+                رقم هاتف إضافي (اختياري)
+              </label>
+              <input
+                type="tel"
+                id="secondPhoneNumber"
+                name="secondPhoneNumber"
+                className="input"
+                value={secondPhoneNumber}
+                onChange={(e) => setSecondPhoneNumber(e.target.value)}
+                placeholder="رقم هاتف آخر للتواصل (اختياري)"
               />
             </div>
             <button type="submit" className="btn-submit">

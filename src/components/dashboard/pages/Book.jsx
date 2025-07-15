@@ -36,7 +36,7 @@ export default function BooksPage() {
 
   const fetchBooks = async () => {
     try {
-      const res = await fetch("https://ktabkalababk.vercel.app/book/getbooks");
+      const res = await fetch("https://ktabkalababk.up.railway.app/book/getbooks");
       const data = await res.json();
       setBooks(data.books || []);
     } catch (err) {
@@ -98,7 +98,7 @@ export default function BooksPage() {
         }
 
         res = await fetch(
-          `https://ktabkalababk.vercel.app/book/admin/editbook/${editingBook._id}`,
+          `https://ktabkalababk.up.railway.app/book/admin/editbook/${editingBook._id}`,
           {
             method: "PUT",
             headers: {
@@ -116,7 +116,7 @@ export default function BooksPage() {
         }
 
         res = await fetch(
-          "https://ktabkalababk.vercel.app/book/admin/addbook",
+          "https://ktabkalababk.up.railway.app/book/admin/addbook",
           {
             method: "POST",
             headers: { admin_token: token },
@@ -191,7 +191,7 @@ export default function BooksPage() {
 
     try {
       const res = await fetch(
-        `https://ktabkalababk.vercel.app/book/admin/deletebook/${bookId}`,
+        `https://ktabkalababk.up.railway.app/book/admin/deletebook/${bookId}`,
         {
           method: "DELETE",
           headers: { admin_token: token },

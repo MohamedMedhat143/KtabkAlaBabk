@@ -7,6 +7,7 @@ export default function ProfilePage() {
     firstName: "",
     lastName: "",
     phoneNumber: "",
+    secondPhoneNumber: "",
     city: "",
     address: "",
   });
@@ -28,20 +29,43 @@ export default function ProfilePage() {
 
         return;
       }
-      const res = await fetch("https://ktabkalababk.vercel.app/user", {
+      const res = await fetch("https://ktabkalababk.up.railway.app/user", {
         headers: { token },
       });
       const data = await res.json();
 
-      if (res.ok) {
-        setUserData(data.user);
+      if (res.ok && data.user) {
+        setUserData({
+          firstName: data.user.firstName || "",
+          lastName: data.user.lastName || "",
+          phoneNumber: data.user.phoneNumber || "",
+          secondPhoneNumber: data.user.secondPhoneNumber || "",
+          city: data.user.city || "",
+          address: data.user.address || "",
+        });
       } else {
+        setUserData({
+          firstName: "",
+          lastName: "",
+          phoneNumber: "",
+          secondPhoneNumber: "",
+          city: "",
+          address: "",
+        });
         setPopup({
           type: "error",
           message: data.message || "فشل في جلب البيانات",
         });
       }
     } catch (err) {
+      setUserData({
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        secondPhoneNumber: "",
+        city: "",
+        address: "",
+      });
       setPopup({ type: "error", message: "حدث خطأ أثناء جلب البيانات" });
     } finally {
       setLoading(false);
@@ -55,7 +79,7 @@ export default function ProfilePage() {
   const handleEdit = async () => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://ktabkalababk.vercel.app/user/edituser", {
+      const res = await fetch("https://ktabkalababk.up.railway.app/user/edituser", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -122,6 +146,16 @@ export default function ProfilePage() {
               value={userData.phoneNumber}
               onChange={(e) =>
                 setUserData({ ...userData, phoneNumber: e.target.value })
+              }
+              disabled={!editing}
+              className="profile-input"
+            />
+            <label>رقم هاتف إضافي:</label>
+            <input
+              type="text"
+              value={userData.secondPhoneNumber}
+              onChange={(e) =>
+                setUserData({ ...userData, secondPhoneNumber: e.target.value })
               }
               disabled={!editing}
               className="profile-input"

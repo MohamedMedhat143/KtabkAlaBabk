@@ -11,6 +11,7 @@ import Cart from "./components/cart/Cart";
 import Profile from "./components/profile/Profile";
 import AdminSignin from "./components/signin/Admin_Signin";
 import Dashboard from "./components/dashboard/Dashboard";
+import Order from "./components/order/Order";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin_signin" element={<AdminSignin />} />
         <Route path="/admin_dashboard" element={<Dashboard />} />
+        <Route path="/order" element={<Order />} />
       </Routes>
     </Router>
   );

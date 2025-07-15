@@ -18,7 +18,7 @@ export default function Home() {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://ktabkalababk.vercel.app/cart/getcart", {
+      const res = await fetch("https://ktabkalababk.up.railway.app/cart/getcart", {
         headers: { token: token },
       });
       const data = await res.json();
@@ -38,7 +38,7 @@ export default function Home() {
     const fetchBooks = async () => {
       try {
         const res = await fetch(
-          "https://ktabkalababk.vercel.app/book/getbooks"
+          "https://ktabkalababk.up.railway.app/book/getbooks"
         );
         const data = await res.json();
         setBooks(data.books || []);
@@ -65,7 +65,7 @@ export default function Home() {
       }
 
       const res = await fetch(
-        "https://ktabkalababk.vercel.app/cart/addtocart",
+        "https://ktabkalababk.up.railway.app/cart/addtocart",
         {
           method: "POST",
           headers: {
@@ -127,7 +127,7 @@ export default function Home() {
   const handleSearch = async () => {
     try {
       const res = await fetch(
-        `https://ktabkalababk.vercel.app/book?search=${encodeURIComponent(
+        `https://ktabkalababk.up.railway.app/book?search=${encodeURIComponent(
           searchTerm
         )}`
       );

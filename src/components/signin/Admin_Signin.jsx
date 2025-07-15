@@ -70,7 +70,7 @@ export default function AdminSignin() {
     e.preventDefault();
     try {
       const res = await fetch(
-        "https://ktabkalababk.vercel.app/auth_admin/signin",
+        "https://ktabkalababk.up.railway.app/auth_admin/signin",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
