@@ -4,6 +4,43 @@ import { catchError } from "../../middleware/catchError.js";
 import { uploadToImageKit } from "../../middleware/fileUpload.js";
 import { AppError } from "../../utils/appError.js";
 
+const getAllOrders = catchError(async (req, res, next) => {
+  let orders = await Order.find();
+  if (req.body.cheacker == false) {
+    if (!orders) return next(new AppError("there is no orders", 404));
+    orders = await Order.find({
+      isCheacked: false,
+    })
+      .select("-receiptImageId -updatedAt")
+      .populate({
+        path: "user",
+        select: "userName phoneNumber address city", // Only these from User
+      })
+      .populate({
+        path: "orderItems.book",
+        select:
+          "bookName bookOwner gradeOfBooks bookImage weightOfBooks bookPrice", // Only these from Book
+      });
+    res.status(201).json({ msg: "success", orders });
+  } else {
+    if (!orders) return next(new AppError("there is no orders", 404));
+    orders = await Order.find({
+      isCheacked: true,
+    })
+      .select("-receiptImageId -updatedAt")
+      .populate({
+        path: "user",
+        select: "userName phoneNumber address city", // Only these from User
+      })
+      .populate({
+        path: "orderItems.book",
+        select:
+          "bookName bookOwner gradeOfBooks bookImage weightOfBooks bookPrice", // Only these from Book
+      });
+    res.status(201).json({ msg: "success", orders });
+  }
+});
+
 const getOrder = catchError(async (req, res, next) => {
   const order = await Order.findOne({ user: req.user.userId })
     .sort({ createdAt: -1 })
@@ -73,4 +110,11 @@ const confirmOrder = catchError(async (req, res, next) => {
   } else return next(new AppError("please add the receipt picture", 404));
 });
 
-export { createOrder, getOrder, confirmOrder };
+const confirmPayment = catchError(async (req, res, next) => {
+  let order = await Order.findById(req.params.id);
+  if (!order) return next(new AppError("there is no order", 404));
+  order.isCheacked = true;
+  await order.save();
+  res.status(201).json({ msg: "success" });
+});
+export { getAllOrders, createOrder, getOrder, confirmOrder, confirmPayment };
