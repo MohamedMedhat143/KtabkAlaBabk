@@ -31,12 +31,10 @@ const createOrder = catchError(async (req, res, next) => {
   totalWeight = cart.cartItems.reduce((sum, item) => {
     return sum + item.book.weightOfBooks;
   }, 0);
-  console.log(OrderPrice);
 
   //calc the total extra weight price
   const extra = Math.max(0, totalWeight - 1000);
   OrderPrice = OrderPrice + Math.ceil(extra / 1000) * 10;
-  console.log(OrderPrice);
 
   let order = new Order({
     user: req.user.userId,
