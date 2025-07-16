@@ -1,6 +1,7 @@
 import { Cart } from "../../../database/models/cart.model.js";
 import { Order } from "../../../database/models/order.model.js";
 import { catchError } from "../../middleware/catchError.js";
+import { uploadToImageKit } from "../../middleware/fileUpload.js";
 import { AppError } from "../../utils/appError.js";
 
 const getOrder = catchError(async (req, res, next) => {
@@ -34,8 +35,9 @@ const createOrder = catchError(async (req, res, next) => {
 
   //calc the total extra weight price
   const extra = Math.max(0, totalWeight - 1000);
-  OrderPrice = OrderPrice + Math.ceil(extra / 1000) * 10;
+  OrderPrice = OrderPrice + Math.ceil(extra / 1000) * 15;
 
+  //create order
   let order = new Order({
     user: req.user.userId,
     orderItems: cart.cartItems,
@@ -44,8 +46,25 @@ const createOrder = catchError(async (req, res, next) => {
   });
   await order.save();
   let oldPrice = cart.totalCartPrice;
-  await Cart.findByIdAndDelete(cart._id);
+  // await Cart.findByIdAndDelete(cart._id);
   res.status(201).json({ msg: "success", order, oldPrice });
 });
 
-export { createOrder, getOrder };
+const confirmOrder = catchError(async (req, res, next) => {
+  let order = await Order.findById(req.params.id);
+  if (!order) return next(new AppError("there is no order", 404));
+  if (req.files.receiptImage && req.files.receiptImage[0]) {
+    const uploadResult = await uploadToImageKit(
+      req.files.receiptImage[0],
+      "ReceiptImage"
+    );
+    console.log(uploadResult);
+    Order.receiptImage = uploadResult.name;
+    Order.receiptImageId = uploadResult.fileId;
+    await order.save();
+    // console.log(order);
+    res.status(201).json({ msg: "success", order });
+  } else return next(new AppError("please add the receipt picture", 404));
+});
+
+export { createOrder, getOrder, confirmOrder };
