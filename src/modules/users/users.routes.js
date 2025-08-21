@@ -5,6 +5,7 @@ import {
   getUser,
   getAllUser,
   seachUser,
+  getUserOrders,
 } from "./users.controllrt.js";
 import { verifyToken } from "../../middleware/verifyToken.js";
 import { validate } from "../../middleware/validation.js";
@@ -14,6 +15,7 @@ const userRouter = Router();
 
 userRouter.get("/admin/getalluser", verifyToken, getAllUser);
 userRouter.get("/admin/searchbook", verifyToken, seachUser);
+userRouter.get("/getuserorders", verifyToken, getUserOrders);
 userRouter.get("/", verifyToken, getUser);
 userRouter.put("/edituser", validate(userVal), verifyToken, updatUser);
 userRouter.put("/admin/edituser", verifyToken, updatUser);

@@ -41,4 +41,10 @@ app.get(/.*/, (req, res) => {
 // 🚨 GLOBAL ERROR HANDLER - Must be last
 app.use(globalError);
 
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () =>
+    console.log(`🚀 Server running locally on http://localhost:${port}`)
+  );
+}
+
 export default app;

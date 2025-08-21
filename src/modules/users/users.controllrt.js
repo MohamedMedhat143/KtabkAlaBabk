@@ -1,3 +1,4 @@
+import { Order } from "../../../database/models/order.model.js";
 import { User } from "../../../database/models/user.model.js";
 import { catchError } from "../../middleware/catchError.js";
 import { AppError } from "../../utils/appError.js";
@@ -41,4 +42,17 @@ const seachUser = catchError(async (req, res, next) => {
   res.status(200).json({ message: "there is no user to search for" });
 });
 
-export { getAllUser, getUser, updatUser, deleteUser, seachUser };
+const getUserOrders = catchError(async (req, res, next) => {
+  console.log("orders");
+  let orders = await Order.find({ user: req.user.userId })
+    .select("orderItems createdAt senderNumber totalOrderPrice")
+    .populate({
+      path: "orderItems.book",
+      select:
+        "bookName bookOwner gradeOfBooks bookImage weightOfBooks bookPrice",
+    });
+  console.log(orders);
+  res.status(201).json({ msg: "success", orders });
+});
+
+export { getAllUser, getUser, updatUser, deleteUser, seachUser, getUserOrders };
