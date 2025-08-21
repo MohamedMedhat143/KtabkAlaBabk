@@ -43,7 +43,6 @@ const seachUser = catchError(async (req, res, next) => {
 });
 
 const getUserOrders = catchError(async (req, res, next) => {
-  console.log("orders");
   let orders = await Order.find({ user: req.user.userId })
     .select("orderItems createdAt senderNumber totalOrderPrice")
     .populate({
@@ -51,7 +50,6 @@ const getUserOrders = catchError(async (req, res, next) => {
       select:
         "bookName bookOwner gradeOfBooks bookImage weightOfBooks bookPrice",
     });
-  console.log(orders);
   res.status(201).json({ msg: "success", orders });
 });
 
